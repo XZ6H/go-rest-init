@@ -5,7 +5,7 @@ As the first step, this repository shows **How to build a Dockerized RESTful API
 
 ## Points to Highlight
 - Usage of Docker and Docker Compose.
-- Usage of Golang and MySQL Alpine images.
+- Usage of Golang and postgres Alpine images.
 - Usage of Docker Multistage builds.
 - [Health API for K8s liveness & readiness](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/).
 - Usage of [Goose](https://github.com/pressly/goose) for Migrations.

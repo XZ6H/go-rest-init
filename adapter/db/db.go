@@ -4,21 +4,19 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 
 	"myapp/config"
 )
 
 func New(conf *config.DbConf) (*sql.DB, error) {
-	cfg := &mysql.Config{
-		Net:                  "tcp",
-		Addr:                 fmt.Sprintf("%v:%v", conf.Host, conf.Port),
-		DBName:               conf.DbName,
-		User:                 conf.Username,
-		Passwd:               conf.Password,
-		AllowNativePasswords: true,
-		ParseTime:            true,
-	}
-
-	return sql.Open("mysql", cfg.FormatDSN())
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
+		conf.Host,
+		conf.Username,
+		conf.Password,
+		conf.DbName,
+		conf.Port,
+	)
+	return sql.Open("postgres", dsn)
 }

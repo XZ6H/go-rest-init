@@ -11,16 +11,15 @@ services:
       - 8080:8080
     depends_on:
       - db
-    command: /bin/sh -c 'while ! nc -z db 3306; do sleep 1; done; ./docker/app/bin/init.sh;'
+    command: /bin/sh -c 'while ! nc -z db 5432; do sleep 1; done; ./docker/app/bin/init.sh;'
     restart: always
 
   db:
-    image: yobasystems/alpine-mariadb:latest
+    image: postgres:14-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: myapp_root_pass
-      MYSQL_DATABASE: myapp_db
-      MYSQL_USER: myapp_user
-      MYSQL_PASSWORD: myapp_pass
+      POSTGRES_PASSWORD: pass1
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
     ports:
-      - 3306:3306
+      - 5432:5432
     restart: always

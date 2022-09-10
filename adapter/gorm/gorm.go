@@ -3,8 +3,7 @@ package gorm
 import (
 	"fmt"
 
-	gosql "github.com/go-sql-driver/mysql"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
@@ -12,15 +11,14 @@ import (
 )
 
 func New(conf *config.DbConf) (*gorm.DB, error) {
-	cfg := &gosql.Config{
-		Net:                  "tcp",
-		Addr:                 fmt.Sprintf("%v:%v", conf.Host, conf.Port),
-		DBName:               conf.DbName,
-		User:                 conf.Username,
-		Passwd:               conf.Password,
-		AllowNativePasswords: true,
-		ParseTime:            true,
-	}
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
+		conf.Host,
+		conf.Username,
+		conf.Password,
+		conf.DbName,
+		conf.Port,
+	)
 
 	var logLevel logger.LogLevel
 	if conf.Debug {
@@ -29,7 +27,7 @@ func New(conf *config.DbConf) (*gorm.DB, error) {
 		logLevel = logger.Error
 	}
 
-	return gorm.Open(mysql.Open(cfg.FormatDSN()), &gorm.Config{
+	return gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logLevel),
 	})
 }

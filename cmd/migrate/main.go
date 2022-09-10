@@ -12,7 +12,7 @@ import (
 	"myapp/config"
 )
 
-const dialect = "mysql"
+const dialect = "postgres"
 
 var (
 	flags = flag.NewFlagSet("migrate", flag.ExitOnError)
